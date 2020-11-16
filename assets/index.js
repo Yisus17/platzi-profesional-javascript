@@ -8,7 +8,7 @@ const buttonMuteUnmute = document.getElementById("muteUnmute");
 const player = new MediaPlayer({
     el: video,
     plugins: [
-        // new AutoPlay()
+        new AutoPlay()
     ]
 });
 
