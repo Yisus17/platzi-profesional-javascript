@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy</title>
+</head>
+
+<body>
+    <a href="/ejercicios/">Go back</a>
+
+    <script src="https://unpkg.com/fast-levenshtein@2.0.6/levenshtein.js"></script>
+
+    <script>
+        // Proxy es parecido a getters y setters
+        // Usa un concepto que se llama traps: son interceptores de llamadas a diferencia de getters, no opera sobre una propiedad, sino sobre un objeto
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Methods_of_the_handler_object
+
+        //Creemos un ejemplo donde interceptamos llamadas para leer una propiedad
+        //Si la propiedad existe, entonces sugerimos una que pueda funcionar
+
+        //Para ello, vamos a usar un algoritmo llamado Levenshtein (window.Levenshtein.get)
+        //Ejemplos de levenshtein distance (usa window.Levenshtein)
+
+        //Material extra https://www.youtube.com/watch?v=0o4-TvTkGtk&ab_channel=AlejandroAmador
+
+        const target = {
+            red:'Rojo',
+            green: 'Verde',
+            blue: 'Azul'
+        }
+        //Tambien podemos controlar el set (no solo el get)
+        const handler = {
+            get(obj, prop){
+                if(prop in obj){
+                    return obj[prop]
+                }
+
+                const suggestion = Object.keys(obj).find(key=>{
+                    return Levenshtein.get(key, prop) <= 3
+                });
+
+                if(suggestion){
+                    console.log(`${prop} no se encontró. Quisiste decir ${suggestion}`);
+                }
+                return obj[prop];
+            }
+        }
+
+        const proxy = new Proxy(target, handler);
+
+
+    </script>
+</body>
+
+</html>
