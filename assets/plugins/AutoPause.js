@@ -2,6 +2,7 @@ class AutoPause{
     constructor (){
         this.threshold=0.25;//porcentaje de observacion del elemento
         this.handleIntersection = this.handleIntersection.bind(this);//aqui this se va a referir a la instancia del pluggin
+        this.handleVisibilitychange = this.handleVisibilitychange.bind(this);
     }
 
     run(player){
@@ -12,6 +13,8 @@ class AutoPause{
             threshold:this.threshold 
         });
         observer.observe(this.player.media);
+
+        document.addEventListener("visibilitychange", this.handleVisibilitychange);
     }
 
 
@@ -25,6 +28,15 @@ class AutoPause{
           this.player.play();
         } else {
           this.player.pause();
+        }
+    }
+
+    handleVisibilitychange = () => {
+        const isVisible = document.visibilityState === "visible";
+        if(isVisible){
+            this.player.play();
+        }else{
+            this.player.pause();
         }
     }
 }
