@@ -57,9 +57,40 @@ const fourPlus = addFour(6);
 
 //funcion con parametros opcionales "?" el argumento puede venir undefined o con
 //un valor por omision, o incluso poder marcarlo por defecto en caso de que falte
-function fullName(firstName: string, lastName: string = 'Perez'): string {
+function fullName(firstName: string, lastName: string = "Perez"): string {
   return `${firstName} ${lastName}`;
 }
 //const jesus = fullName('Jesus', 'Arevalo');
 const jesus = fullName("Jesus");
 console.log(jesus);
+
+
+
+/*********************Interfaces*********************/
+//Hay propiedades que pueden ser opcionales, como el color con el "?"
+interface Rectangulo {
+  ancho: number;
+  alto: number;
+  color?: Color
+}
+
+let rect: Rectangulo = {
+  ancho: 4,
+  alto: 6,
+  color: Color.Azul
+};
+
+function area(r:Rectangulo): number{
+    return r.alto * r.ancho;
+}
+const areaRect = area(rect);
+console.log(areaRect);
+console.log(rect.toString());//OBJECT OBJECT 
+
+//Redefinimos .toString(), recordando que todos los objectos heredan esta funcion
+//y la podemos reimplementar
+rect.toString = () =>{
+    console.log("hola:" + this.color);
+    return  this.color ? `Un rectangulo ${this.color}`: `Un rectangulo`
+}
+console.log(rect.toString());
